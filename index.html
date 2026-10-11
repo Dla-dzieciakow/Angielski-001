@@ -24,7 +24,7 @@ main{max-width:680px;margin:auto}
 .hero{display:flex;justify-content:center;align-items:center;gap:8px;min-height:150px;margin:8px 0 16px;background:#fff;border:3px dashed var(--line);border-radius:20px;padding:12px;flex-wrap:wrap;transition:.15s}
 .hero.say,.q.say{background:var(--sun2);transform:scale(1.03)}
 .ic{width:56px;height:56px;display:block}.big{width:118px;height:118px}.s{width:34px;height:34px}.scene{width:min(300px,100%);height:auto}
-.digit{font-size:6rem;font-weight:900;color:var(--red);line-height:1}.word{font-size:4.2rem;font-weight:900;letter-spacing:.06em;color:var(--teal)}
+.digit{font-size:6rem;font-weight:900;color:var(--red);line-height:1}.word{font-size:clamp(2.4rem,12vw,4.2rem);text-align:center;font-weight:900;letter-spacing:.06em;color:var(--teal)}
 .spk{border:0;background:none;cursor:pointer;padding:0}.spk svg{width:90px;height:90px}
 .answers{display:grid;gap:12px}.answers.t{grid-template-columns:1fr}.answers.p{grid-template-columns:repeat(3,1fr)}
 .ans{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;border:3px solid var(--ink);background:#fff;color:var(--ink);border-radius:18px;padding:10px 14px;font:inherit;font-size:1.25rem;font-weight:800;text-align:left;cursor:pointer;box-shadow:0 5px 0 var(--ink);transition:.12s}
@@ -52,6 +52,9 @@ main{max-width:680px;margin:auto}
 .score{text-align:center;font-size:4.2rem;font-weight:900;color:var(--red);line-height:1}.rt{text-align:center;font-size:1.6rem;font-weight:900;margin:6px 0}
 .rev{display:grid;gap:9px;margin-top:12px}.rev div{background:#fff;border:2.5px solid var(--line);border-radius:14px;padding:11px;line-height:1.4}.rev b{display:block}
 .foot{text-align:center;color:var(--mut);font-size:.78rem;padding:4px 10px 20px;line-height:1.5}
+.gm{display:grid;gap:12px}.gc{display:block;text-align:left;border:3px solid var(--ink);border-radius:18px;background:#fff;padding:14px 16px;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 5px 0 var(--ink)}.gc b{display:block;font-size:1.35rem}.gc span{color:var(--mut);font-weight:700}.gc:nth-child(1){background:var(--sun2)}.gc:nth-child(2){background:var(--teal2)}.gc:nth-child(3){background:#ece6ff}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mc{aspect-ratio:1;border:3px solid var(--ink);border-radius:14px;background:repeating-linear-gradient(45deg,var(--red) 0 8px,#ff8a6e 8px 16px);box-shadow:0 4px 0 var(--ink);cursor:pointer;display:grid;place-items:center;font:inherit;font-weight:900;color:var(--ink);padding:3px;font-size:clamp(.8rem,3.6vw,1.2rem);overflow:hidden}.mc.up{background:#fff}.mc.ok{background:var(--teal2);border-color:var(--teal);box-shadow:0 4px 0 var(--teal)}.mc .ic{width:100%;height:100%}
+.slots,.tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}.slot{width:42px;height:54px;border-bottom:5px solid var(--ink);display:grid;place-items:center;font-size:2rem;font-weight:900;text-transform:uppercase;color:var(--teal)}.tile{width:54px;height:60px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);font:inherit;font-size:1.7rem;font-weight:900;text-transform:uppercase;color:var(--ink);cursor:pointer;box-shadow:0 4px 0 var(--ink)}.tile:disabled{opacity:.25;box-shadow:none}
 @media(max-width:420px){body{padding:8px}.match{gap:40px}.p .ic{width:100%}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -65,6 +68,10 @@ main{max-width:680px;margin:auto}
 <symbol id="book" viewBox="0 0 64 64"><rect x="9" y="7" width="46" height="50" rx="5" fill="#ff7a6e" stroke="#1f2a5a" stroke-width="3"/><rect x="9" y="49" width="46" height="8" rx="3" fill="#fff" stroke="#1f2a5a" stroke-width="3"/><rect x="18" y="15" width="26" height="5" rx="2.5" fill="#fff"/><rect x="18" y="25" width="16" height="5" rx="2.5" fill="#fff"/></symbol>
 <symbol id="bag" viewBox="0 0 64 64"><path d="M25 12a7 7 0 0 1 14 0" fill="none" stroke="#1f2a5a" stroke-width="4"/><rect x="5" y="30" width="10" height="20" rx="4" fill="#7a58e6" stroke="#1f2a5a" stroke-width="3"/><rect x="49" y="30" width="10" height="20" rx="4" fill="#7a58e6" stroke="#1f2a5a" stroke-width="3"/><path d="M13 26a19 17 0 0 1 38 0v29a5 5 0 0 1-5 5H18a5 5 0 0 1-5-5z" fill="#9b7bff" stroke="#1f2a5a" stroke-width="3"/><path d="M13 31h38" stroke="#1f2a5a" stroke-width="3"/><rect x="19" y="37" width="26" height="17" rx="5" fill="#c1adff" stroke="#1f2a5a" stroke-width="3"/><path d="M26 44h12" stroke="#1f2a5a" stroke-width="3" stroke-linecap="round"/><path d="M13 22c4-9 34-9 38 0" fill="none" stroke="#5a35c8" stroke-width="3"/></symbol>
 <symbol id="case" viewBox="0 0 64 64"><g stroke="#1f2a5a" stroke-width="2.5" stroke-linejoin="round"><path d="M14 30V12l4-5 4 5v18z" fill="#4a7bff"/><path d="M26 30V10l4-5 4 5v20z" fill="#ff6b4a"/><path d="M38 30V13l4-5 4 5v17z" fill="#ffd54a"/></g><rect x="3" y="28" width="58" height="26" rx="10" fill="#ffab4a" stroke="#1f2a5a" stroke-width="3"/><path d="M8 38h48" stroke="#1f2a5a" stroke-width="3" stroke-dasharray="3 3"/><rect x="26" y="34" width="12" height="9" rx="3" fill="#fff" stroke="#1f2a5a" stroke-width="2.5"/></symbol>
+<symbol id="box" viewBox="0 0 64 64"><rect x="6" y="24" width="52" height="34" rx="5" fill="#e0b07a" stroke="#1f2a5a" stroke-width="3"/><rect x="3" y="12" width="58" height="15" rx="4" fill="#c78a4d" stroke="#1f2a5a" stroke-width="3"/><rect x="24" y="35" width="16" height="6" rx="3" fill="#a86f38"/></symbol>
+<symbol id="table" viewBox="0 0 64 64"><rect x="3" y="20" width="58" height="11" rx="4" fill="#c78a4d" stroke="#1f2a5a" stroke-width="3"/><rect x="10" y="31" width="8" height="27" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/><rect x="46" y="31" width="8" height="27" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/></symbol>
+<symbol id="chair" viewBox="0 0 64 64"><rect x="16" y="4" width="28" height="30" rx="6" fill="#ff9f43" stroke="#1f2a5a" stroke-width="3"/><rect x="9" y="32" width="42" height="10" rx="4" fill="#ffc27d" stroke="#1f2a5a" stroke-width="3"/><rect x="13" y="42" width="7" height="18" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/><rect x="40" y="42" width="7" height="18" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/></symbol>
+<symbol id="board" viewBox="0 0 64 64"><rect x="4" y="8" width="56" height="38" rx="4" fill="#2f7d5b" stroke="#8a5a2b" stroke-width="5"/><path d="M13 20h22M13 31h32" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="18" y="49" width="28" height="6" rx="2" fill="#8a5a2b"/></symbol>
 <symbol id="star" viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.8l1.7-7.3L1.6 9.6 9 8.9z" fill="#ffc83d" stroke="#1f2a5a" stroke-width="1.6" stroke-linejoin="round"/></symbol>
 </defs></svg>
 <main>
@@ -73,7 +80,7 @@ main{max-width:680px;margin:auto}
 <section class="card start" id="start">
  <span class="kind">TEST UNIT 1</span>
  <h2>Gotowi na sprawdzian?</h2>
- <p>Ćwiczymy dokładnie to, co zapowiedziała nauczycielka. Lektor czyta pytanie i kolejne odpowiedzi — słuchaj, jak się podświetlają!</p>
+ <p>50 zadań z zakresu, który zapowiedziała nauczycielka. Dotknij żółtego głośniczka, a lektor przeczyta pytanie i kolejne odpowiedzi. Po teście czekają gry!</p>
  <div class="chips"><span>czytanie i słuchanie</span><span>przybory szkolne</span><span>in / on</span><span>liczby 1–10</span><span>łączenie słów z obrazkami</span></div>
  <div class="acts"><button class="btn go" id="begin">Zaczynamy!</button></div>
 </section>
@@ -93,40 +100,48 @@ main{max-width:680px;margin:auto}
 <section class="card hidden" id="res">
  <div class="score" id="fs"></div><div class="rt" id="rt"></div><p id="rm" style="text-align:center;font-weight:700;line-height:1.5"></p>
  <h3 style="margin:14px 0 0">Do powtórki</h3><div class="rev" id="rev"></div>
- <div class="acts"><button class="btn go" id="again">Jeszcze raz</button></div>
+ <div class="acts"><button class="btn go" id="play">Zabawa i nauka</button><button class="btn alt" id="again">Powtórz ten test</button><button class="btn alt" id="newt">Nowy test</button></div>
 </section>
+
+<section class="card hidden" id="gm"><span class="kind" id="gk">ZABAWA I NAUKA</span><div id="gb"></div><div class="acts"><button class="btn alt" id="gback">Wróć</button></div></section>
 <div class="foot">Autorski trening na podstawie zakresu od nauczycielki — to nie jest oficjalny sprawdzian. Działa offline; głos zależy od telefonu.</div>
 </main>
 <script>
 const $=id=>document.getElementById(id);
 const I=(k,c='ic')=>`<svg class="${c}"><use href="#${k}"/></svg>`;
-const N={pencil:'a pencil',ruler:'a ruler',rubber:'a rubber',pen:'a pen',book:'a book',bag:'a school bag',case:'a pencil case'};
+const NM={pencil:'pencil',ruler:'ruler',rubber:'rubber',pen:'pen',book:'book',bag:'school bag',case:'pencil case',box:'box',table:'table',chair:'chair',board:'board'};
+const PL={pencil:'ołówek',ruler:'linijka',rubber:'gumka do mazania',pen:'długopis',book:'książka',bag:'plecak szkolny',case:'piórnik',box:'pudełko',table:'stół',chair:'krzesło',board:'tablica'};
+const KS=Object.keys(NM),N={};KS.forEach(k=>N[k]='a '+NM[k]);
+const NW=['','one','two','three','four','five','six','seven','eight','nine','ten'];
 const cnt=n=>I('pencil','ic s').repeat(n);
+const cap=s=>s[0].toUpperCase()+s.slice(1);
 const SPK='<svg viewBox="0 0 64 64"><path d="M8 24h12l14-12v40L20 40H8z" fill="#ffd54a" stroke="#1f2a5a" stroke-width="3" stroke-linejoin="round"/><path d="M42 22c5 6 5 14 0 20M49 15c9 10 9 24 0 34" fill="none" stroke="#1f2a5a" stroke-width="3.5" stroke-linecap="round"/></svg>';
-const sc=(a,b)=>`<svg class="scene" viewBox="0 0 200 110">${a}</svg>${b||''}`;
-const IN=sc('<rect x="36" y="26" width="128" height="76" rx="8" fill="#f1cf9c" stroke="#1f2a5a" stroke-width="3.5"/><path d="M36 26l-14-12M164 26l14-12" stroke="#1f2a5a" stroke-width="3.5" stroke-linecap="round"/><use href="#pencil" x="66" y="32" width="68" height="68"/>');
-const ON=sc('<use href="#book" x="70" y="2" width="62" height="62"/><rect x="28" y="62" width="144" height="11" rx="4" fill="#c78a4d" stroke="#1f2a5a" stroke-width="3"/><rect x="42" y="73" width="10" height="33" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/><rect x="148" y="73" width="10" height="33" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/>');
-const T=[
-{k:'pick',type:'SŁÓWKA',q:'What is it?',p:'Co to jest? Wybierz słowo.',h:I('pencil','ic big'),o:['A pencil','A ruler','A book'],c:0,w:'Pencil = ołówek.'},
-{k:'listen',type:'SŁUCHANIE',q:'Listen and choose.',p:'Posłuchaj i dotknij właściwego obrazka.',s:'ruler',o:['pencil','ruler','rubber'],c:1,w:'Ruler = linijka.'},
-{k:'pick',type:'SŁÓWKA',q:'What is it?',p:'Co to jest? Wybierz słowo.',h:I('bag','ic big'),o:['A school bag','A pencil case','A book'],c:0,w:'School bag = plecak szkolny.'},
-{k:'read',type:'CZYTANIE',q:'Read and choose.',p:'Przeczytaj słowo i dotknij pasującego obrazka.',s:'pen',h:'<span class="word">PEN</span>',o:['book','pen','ruler'],c:1,w:'Pen = długopis.'},
-{k:'pick',type:'SŁÓWKA',q:'What is it?',p:'Co to jest? Wybierz słowo.',h:I('rubber','ic big'),o:['A rubber','A ruler','A pen'],c:0,w:'Rubber = gumka do mazania.'},
-{k:'listen',type:'SŁUCHANIE',q:'Listen and choose.',p:'Posłuchaj i dotknij właściwego obrazka.',s:'pencil case',o:['bag','case','book'],c:1,w:'Pencil case = piórnik.'},
-{k:'read',type:'CZYTANIE',q:'Read and choose.',p:'Przeczytaj słowo i dotknij pasującego obrazka.',s:'book',h:'<span class="word">BOOK</span>',o:['bag','rubber','book'],c:2,w:'Book = książka.'},
-{k:'match',type:'ŁĄCZENIE',q:'Match the words and pictures.',p:'Dotknij słowa, potem jego obrazka.',pairs:[['pencil','pencil'],['ruler','ruler'],['rubber','rubber'],['book','book']]},
-{k:'pick',type:'LICZBY',q:'What number is it?',p:'Jaka to liczba po angielsku?',h:'<span class="digit">3</span>',o:['two','three','ten'],c:1,w:'3 = three.'},
-{k:'listen',type:'LICZBY',q:'Listen and choose.',p:'Posłuchaj i dotknij właściwej liczby.',s:'seven',num:1,o:['6','9','7'],c:2,w:'7 = seven.'},
-{k:'pick',type:'LICZBY',q:'How many pencils?',p:'Policz ołówki.',h:cnt(5),o:['four','five','six'],c:1,w:'5 = five.'},
-{k:'pick',type:'LICZBY',q:'What comes after eight?',p:'Co jest po eight (8)?',h:'<span class="digit">8 → ?</span>',o:['ten','nine','seven'],c:1,w:'Eight, nine, ten — 8, 9, 10.'},
-{k:'pick',type:'IN / ON',q:'Where is the pencil?',p:'Gdzie jest ołówek? W środku, na czy pod pudełkiem?',h:IN,o:['In the box','On the box','Under the box'],c:0,w:'In = w środku.'},
-{k:'pick',type:'IN / ON',q:'Where is the book?',p:'Gdzie leży książka?',h:ON,o:['In the bag','On the table','Under the table'],c:1,w:'On = na czymś.'},
-{k:'match',type:'ŁĄCZENIE',q:'Match the words and pictures.',p:'Dotknij słowa, potem jego obrazka.',pairs:[['school bag','bag'],['pencil case','case'],['pen','pen'],['book','book']]},
-{k:'match',type:'ŁĄCZENIE LICZB',q:'Match the numbers.',p:'Policz ołówki i połącz z liczbą.',pairs:[['two',null,2],['three',null,3],['five',null,5],['seven',null,7]]}
-];
-let n=0,pts=0,lock=0,wrong=[],sound=true,run=0,sel=null,done=0,mis=0,links=[];
-const COL=['#ff6b4a','#14a38b','#7c4dff','#e59a00'];
 const shuf=a=>{const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[r[i],r[j]]=[r[j],r[i]]}return r.every((x,i)=>x===a[i])?r.reverse():r};
+const deck=a=>{let d=[];return()=>{if(!d.length)d=shuf(a);return d.pop()}};
+const oth=(a,x,k)=>shuf(a.filter(y=>y!==x)).slice(0,k);
+const NUMS=[1,2,3,4,5,6,7,8,9,10],dp=deck(KS),dl=deck(KS),dr=deck(KS),di=deck(['pencil','rubber','ruler','pen']),don=deck(['book','case','bag','rubber']);
+const sc=a=>`<svg class="scene" viewBox="0 0 200 110">${a}</svg>`;
+const sIn=k=>sc(`<rect x="36" y="26" width="128" height="76" rx="8" fill="#f1cf9c" stroke="#1f2a5a" stroke-width="3.5"/><path d="M36 26l-14-12M164 26l14-12" stroke="#1f2a5a" stroke-width="3.5" stroke-linecap="round"/><use href="#${k}" x="66" y="32" width="68" height="68"/>`);
+const sOn=k=>sc(`<use href="#${k}" x="69" y="2" width="62" height="62"/><rect x="28" y="62" width="144" height="11" rx="4" fill="#c78a4d" stroke="#1f2a5a" stroke-width="3"/><rect x="42" y="73" width="10" height="33" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/><rect x="148" y="73" width="10" height="33" fill="#9a6535" stroke="#1f2a5a" stroke-width="3"/>`);
+let ni=0,ii=0,mi=0;
+const mk={
+ pick(){const k=dp(),o=shuf([k,...oth(KS,k,2)]);return{k:'pick',type:'SŁÓWKA',q:'What is it?',p:'Co to jest? Wybierz słowo.',h:I(k,'ic big'),o:o.map(x=>cap(N[x])),c:o.indexOf(k),w:`${cap(NM[k])} = ${PL[k]}.`}},
+ listen(){const k=dl(),o=shuf([k,...oth(KS,k,2)]);return{k:'listen',type:'SŁUCHANIE',q:'Listen and choose.',p:'Dotknij głośniczka i wybierz obrazek.',s:NM[k],o,c:o.indexOf(k),w:`${cap(NM[k])} = ${PL[k]}.`}},
+ read(){const k=dr(),o=shuf([k,...oth(KS,k,2)]);return{k:'read',type:'CZYTANIE',q:'Read and choose.',p:'Przeczytaj słowo i dotknij pasującego obrazka.',s:NM[k],h:`<span class="word">${NM[k].toUpperCase()}</span>`,o,c:o.indexOf(k),w:`${cap(NM[k])} = ${PL[k]}.`}},
+ num(){const t=ni++%4,x=t==3?1+Math.random()*9|0:t==2?2+Math.random()*8|0:NUMS[Math.random()*10|0],a=t==3?x+1:x,o=shuf([a,...oth(NUMS,a,2)]),c=o.indexOf(a),B={type:'LICZBY',o:o.map(i=>NW[i]),c,w:`${a} = ${NW[a]}.`};
+  if(t==0)return{...B,k:'pick',q:'What number is it?',p:'Jaka to liczba po angielsku?',h:`<span class="digit">${x}</span>`};
+  if(t==1)return{...B,k:'listen',q:'Listen and choose.',p:'Dotknij głośniczka i wybierz liczbę.',s:NW[x],num:1,o:o.map(String)};
+  if(t==2)return{...B,k:'pick',q:'How many pencils?',p:'Policz ołówki.',h:cnt(x)};
+  return{...B,k:'pick',q:`What comes after ${NW[x]}?`,p:`Co jest po ${NW[x]} (${x})?`,h:`<span class="digit">${x} → ?</span>`}},
+ inon(){const inn=ii++%2==0,it=inn?di():don(),L=NM[it],o=shuf(inn?['In the box','On the box','Under the box']:['On the table','Under the table','In the box']);
+  return{k:'pick',type:'IN / ON',q:`Where is the ${L}?`,p:`Gdzie jest: ${PL[it]}? W środku, na czy pod?`,h:inn?sIn(it):sOn(it),o,c:o.indexOf(inn?'In the box':'On the table'),w:inn?'In = w środku.':'On = na czymś.'}},
+ match(){if(mi++%3==2){const a=shuf(NUMS).slice(0,4);return{k:'match',type:'ŁĄCZENIE LICZB',q:'Match the numbers.',p:'Policz ołówki i połącz z liczbą.',pairs:a.map(x=>[NW[x],null,x])}}
+  return{k:'match',type:'ŁĄCZENIE',q:'Match the words and pictures.',p:'Dotknij słowa, potem jego obrazka.',pairs:shuf(KS).slice(0,4).map(k=>[NM[k],k])}}
+};
+const PAT=['pick','listen','read','num','inon','pick','listen','num','match','pick'];
+const gen=()=>[0,1,2,3,4].flatMap(()=>PAT.map(t=>mk[t]()));
+let T=gen(),n=0,pts=0,lock=0,wrong=[],sound=true,run=0,sel=null,done=0,mis=0,links=[];
+const COL=['#ff6b4a','#14a38b','#7c4dff','#e59a00'];
 const clr=()=>document.querySelectorAll('.say').forEach(e=>e.classList.remove('say'));
 function stop(){run++;if(window.speechSynthesis)speechSynthesis.cancel();clr()}
 function speak(t,end){
@@ -214,7 +229,39 @@ function finish(){
 $('begin').onclick=()=>{$('start').classList.add('hidden');$('quiz').classList.remove('hidden');render()};
 $('next').onclick=()=>{if(n<T.length-1){n++;render();window.scrollTo({top:0})}else finish()};
 $('sp').innerHTML=SPK;$('sp').onclick=()=>seq(script(T[n]));
-$('again').onclick=()=>{n=0;pts=0;wrong=[];$('res').classList.add('hidden');$('quiz').classList.remove('hidden');render()};
+const rerun=()=>{n=0;pts=0;wrong=[];$('res').classList.add('hidden');$('gm').classList.add('hidden');$('quiz').classList.remove('hidden');render();window.scrollTo({top:0})};
+$('again').onclick=rerun;$('newt').onclick=()=>{T=gen();rerun()};
+$('play').onclick=()=>{$('res').classList.add('hidden');$('gm').classList.remove('hidden');menu();window.scrollTo({top:0})};
+$('gback').onclick=()=>{if(gp)menu();else{stop();$('gm').classList.add('hidden');$('res').classList.remove('hidden')}};
+const G=$('gb');let gp=0,cur;
+const mkb=(c,h,f)=>{const b=document.createElement('button');b.className=c;b.innerHTML=h;b.onclick=f;return b};
+function menu(){stop();gp=0;$('gback').textContent='Wróć do wyniku';
+ G.innerHTML='<div class="q">Wybierz grę</div><p class="hint">Bawisz się i uczysz tych samych słówek!</p><div class="gm"></div>';
+ [['Memory','Znajdź pary: obrazek i słowo',mem],['Łowca słówek','Usłyszysz słowo — złap obrazek',hunt],['Literki','Ułóż słowo z liter',spell]].forEach(([a,b,f])=>G.lastChild.append(mkb('gc',`<b>${a}</b><span>${b}</span>`,f)))}
+function end(m){stop();gp=0;$('gback').textContent='Wróć do wyniku';
+ G.innerHTML=`<div class="rt" style="margin:20px 0">${m}</div><div class="acts"></div>`;G.lastChild.append(mkb('btn go','Jeszcze raz',()=>cur()),mkb('btn alt','Menu gier',menu))}
+function mem(){stop();cur=mem;gp=1;$('gback').textContent='Menu gier';let a=null,lk=0,mv=0,ok=0;const ks=shuf(KS).slice(0,4);
+ G.innerHTML='<div class="q">Memory</div><p class="hint" id="mi">Szukaj par: obrazek i słowo. Ruchy: 0</p><div class="mem"></div>';
+ shuf([...ks.map(k=>[k,0]),...ks.map(k=>[k,1])]).forEach(([k,t])=>{
+  const b=mkb('mc','',()=>{if(lk||b.classList.contains('up'))return;b.classList.add('up');b.innerHTML=t?NM[k]:I(k);if(t)seq([[NM[k],null]]);
+   if(!a){a=[b,k,t];return}$('mi').textContent='Szukaj par: obrazek i słowo. Ruchy: '+ ++mv;
+   if(a[1]===k&&a[2]!==t){a[0].classList.add('ok');b.classList.add('ok');a=null;if(++ok==4)setTimeout(()=>end('Wszystkie pary! Ruchy: '+mv),700)}
+   else{lk=1;const p=a[0];a=null;setTimeout(()=>{p.classList.remove('up');b.classList.remove('up');p.innerHTML=b.innerHTML='';lk=0},900)}});
+  G.lastChild.append(b)})}
+function hunt(){stop();cur=hunt;gp=1;$('gback').textContent='Menu gier';let pt=0,hp=3,t;
+ G.innerHTML='<div class="q">Łowca słówek</div><p class="hint" id="hs"></p><div class="hero" id="hh" style="min-height:90px"></div><div class="answers p" id="ha"></div>';
+ const nx=()=>{t=KS[Math.random()*KS.length|0];const o=shuf([t,...oth(KS,t,5)]),H=$('hh'),A=$('ha');
+  $('hs').textContent=`Życia: ${'♥'.repeat(hp)}   Punkty: ${pt}/10`;H.innerHTML='';H.append(mkb('spk',SPK,()=>seq([[NM[t],H]])));A.innerHTML='';
+  o.forEach(x=>A.append(mkb('ans',I(x),function(){[...A.children].forEach(e=>e.disabled=true);
+   if(x===t){pt++;this.classList.add('good');seq([[NM[t],this]])}else{hp--;this.classList.add('bad');[...A.children][o.indexOf(t)].classList.add('good');seq([[NM[t],null]])}
+   setTimeout(()=>pt>=10?end('Mistrz słówek! 10 punktów'):hp<1?end('Koniec gry. Punkty: '+pt):nx(),1300)})));
+  seq([[NM[t],H]])};nx()}
+function spell(){stop();cur=spell;gp=1;$('gback').textContent='Menu gier';const W=shuf(KS.filter(k=>!NM[k].includes(' '))).slice(0,6);let i=0;
+ const r=()=>{const k=W[i],w=NM[k];let nx=0;
+  G.innerHTML=`<div class="q">Literki ${i+1}/6</div><p class="hint">Dotknij liter po kolei i ułóż słowo.</p><div class="hero">${I(k,'ic big')}</div><div class="slots"></div><div class="tiles"></div>`;
+  const sl=G.querySelector('.slots'),tl=G.querySelector('.tiles');
+  [...w].forEach(()=>sl.append(mkb('slot','',()=>{})));
+  shuf([...w]).forEach(ch=>{const b=mkb('tile',ch,()=>{if(ch===w[nx]){sl.children[nx].textContent=ch;b.disabled=true;if(++nx==w.length){seq([[w,sl]]);setTimeout(()=>++i<6?r():end('Super! Ułożyłeś 6 słów.'),1400)}}else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400)}});tl.append(b)})};r()}
 $('snd').onclick=()=>{sound=!sound;$('snd').textContent='Dźwięk: '+(sound?'ON':'OFF');$('snd').setAttribute('aria-pressed',sound);if(!sound)stop()};
 if(window.speechSynthesis)speechSynthesis.getVoices();
 </script>
