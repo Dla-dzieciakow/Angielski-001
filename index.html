@@ -91,7 +91,7 @@ main{max-width:680px;margin:auto}
  <h2>Gotowi na sprawdzian?</h2>
  <p>45 zadań w 3 poziomach po 15, z zakresu, który zapowiedziała nauczycielka. Dotknij żółtego głośniczka, a lektor przeczyta pytanie i kolejne odpowiedzi. Po każdym poziomie możesz iść dalej albo ćwiczyć jeszcze raz. Na końcu czekają fanfary i gry!</p>
  <div class="chips"><span>czytanie i słuchanie</span><span>przybory szkolne</span><span>in / on</span><span>liczby 1–10</span><span>łączenie słów z obrazkami</span></div>
- <div class="chips hidden" id="badge"><span style="background:#ffd54a">Złota korona — bezbłędny mistrz!</span></div><div class="acts"><button class="btn go" id="begin">Zaczynamy!</button></div>
+ <div class="chips hidden" id="badge"><span style="background:#ffd54a">Złota korona — bezbłędny mistrz!</span></div><div class="acts"><button class="btn go" id="begin">Zaczynamy!</button><button class="btn alt" id="sPlay">Zabawa i nauka</button></div>
 </section>
 
 <section class="card hidden" id="quiz">
@@ -266,17 +266,17 @@ function boom(k){
 $('begin').onclick=()=>{$('start').classList.add('hidden');$('quiz').classList.remove('hidden');render()};
 $('next').onclick=()=>{if(n<(L+1)*LV-1){n++;render();window.scrollTo({top:0})}else levelEnd()};
 $('sp').innerHTML=SPK;$('sp').onclick=()=>seq(script(T[n]));
-const toGames=b=>{bk=b;['res','fin'].forEach(i=>$(i).classList.add('hidden'));$('gm').classList.remove('hidden');menu();window.scrollTo({top:0})};
-$('play').onclick=()=>toGames('res');$('f1').onclick=()=>toGames('fin');
+const toGames=b=>{bk=b;['start','res','fin'].forEach(i=>$(i).classList.add('hidden'));$('gm').classList.remove('hidden');menu();window.scrollTo({top:0})};
+$('play').onclick=()=>toGames('res');$('f1').onclick=()=>toGames('fin');$('sPlay').onclick=()=>toGames('start');
 $('f2').onclick=()=>{L=0;terr=0;lvP=[];startLv()};$('f3').onclick=()=>{T=gen();L=0;terr=0;lvP=[];startLv()};
 $('gback').onclick=()=>{if(gp)menu();else{stop();$('gm').classList.add('hidden');$(bk).classList.remove('hidden')}};
 try{if(localStorage.getItem('eq_gold'))$('badge').classList.remove('hidden')}catch(e){}
 const G=$('gb');let gp=0,cur;
 const mkb=(c,h,f)=>{const b=document.createElement('button');b.className=c;b.innerHTML=h;b.onclick=f;return b};
-function menu(){stop();gp=0;$('gback').textContent='Wróć do wyniku';
+function menu(){stop();gp=0;$('gback').textContent=bk=='start'?'Wróć na start':'Wróć do wyniku';
  G.innerHTML='<div class="q">Wybierz grę</div><p class="hint">Bawisz się i uczysz tych samych słówek!</p><div class="gm"></div>';
  [['Memory','Znajdź pary: obrazek i słowo',mem],['Łowca słówek','Usłyszysz słowo — złap obrazek',hunt],['Literki','Ułóż słowo z liter',spell]].forEach(([a,b,f])=>G.lastChild.append(mkb('gc',`<b>${a}</b><span>${b}</span>`,f)))}
-function end(m){stop();gp=0;$('gback').textContent='Wróć do wyniku';
+function end(m){stop();gp=0;$('gback').textContent=bk=='start'?'Wróć na start':'Wróć do wyniku';
  G.innerHTML=`<div class="rt" style="margin:20px 0">${m}</div><div class="acts"></div>`;G.lastChild.append(mkb('btn go','Jeszcze raz',()=>cur()),mkb('btn alt','Menu gier',menu))}
 function mem(){stop();cur=mem;gp=1;$('gback').textContent='Menu gier';let a=null,lk=0,mv=0,ok=0;const ks=shuf(KS).slice(0,4);
  G.innerHTML='<div class="q">Memory</div><p class="hint" id="mi">Szukaj par: obrazek i słowo. Ruchy: 0</p><div class="mem"></div>';
