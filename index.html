@@ -55,6 +55,15 @@ main{max-width:680px;margin:auto}
 .gm{display:grid;gap:12px}.gc{display:block;text-align:left;border:3px solid var(--ink);border-radius:18px;background:#fff;padding:14px 16px;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 5px 0 var(--ink)}.gc b{display:block;font-size:1.35rem}.gc span{color:var(--mut);font-weight:700}.gc:nth-child(1){background:var(--sun2)}.gc:nth-child(2){background:var(--teal2)}.gc:nth-child(3){background:#ece6ff}
 .mem{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mc{aspect-ratio:1;border:3px solid var(--ink);border-radius:14px;background:repeating-linear-gradient(45deg,var(--red) 0 8px,#ff8a6e 8px 16px);box-shadow:0 4px 0 var(--ink);cursor:pointer;display:grid;place-items:center;font:inherit;font-weight:900;color:var(--ink);padding:3px;font-size:clamp(.8rem,3.6vw,1.2rem);overflow:hidden}.mc.up{background:#fff}.mc.ok{background:var(--teal2);border-color:var(--teal);box-shadow:0 4px 0 var(--teal)}.mc .ic{width:100%;height:100%}
 .slots,.tiles{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}.slot{width:42px;height:54px;border-bottom:5px solid var(--ink);display:grid;place-items:center;font-size:2rem;font-weight:900;text-transform:uppercase;color:var(--teal)}.tile{width:54px;height:60px;border:3px solid var(--ink);border-radius:14px;background:var(--sun);font:inherit;font-size:1.7rem;font-weight:900;text-transform:uppercase;color:var(--ink);cursor:pointer;box-shadow:0 4px 0 var(--ink)}.tile:disabled{opacity:.25;box-shadow:none}
+.dip{position:relative;text-align:center;padding:26px 14px;border:4px solid #b8860b;border-radius:22px;background:linear-gradient(135deg,#fff7cf,#ffe48a 45%,#fff7cf 55%,#ffd54a);box-shadow:0 0 0 4px #fff7cf,0 0 0 8px #b8860b,0 0 44px #ffd54a;overflow:hidden;margin:8px 8px 18px}
+.dip:before{content:"";position:absolute;inset:-70%;background:repeating-conic-gradient(rgba(255,255,255,.6) 0 8deg,transparent 8deg 20deg);animation:spin 16s linear infinite}.dip>*{position:relative}@keyframes spin{to{transform:rotate(360deg)}}
+.cr{width:130px;animation:pop 1s ease-out,fl 2.4s ease-in-out 1s infinite}@keyframes pop{0%{transform:scale(0) rotate(-25deg)}70%{transform:scale(1.25)}100%{transform:scale(1)}}@keyframes fl{50%{transform:translateY(-8px)}}
+.dt{font-size:clamp(2rem,10vw,2.8rem);font-weight:900;letter-spacing:.1em;color:#7a4b00;line-height:1.1}.dm{font-size:clamp(1.2rem,6vw,1.6rem);font-weight:900;margin:4px 0}.dip p{margin:6px 0;font-weight:800;color:#5a3a00}
+.nm{display:inline-block;min-width:70%;border-bottom:3px dashed #7a4b00;font-size:1.8rem;font-weight:900;margin:12px 0;outline:0}
+.lvs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}.lvs span{border:2.5px solid var(--ink);background:#fff;border-radius:99px;padding:6px 12px;font-weight:900}
+.stars{display:flex;justify-content:center;gap:6px}.stars .ic{width:52px;height:52px;animation:pop .7s ease-out both}.stars .ic:nth-child(2){animation-delay:.12s}.stars .ic:nth-child(3){animation-delay:.24s}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}.cf{position:absolute;top:-24px;width:10px;height:16px;border-radius:2px;animation:fall linear forwards}@keyframes fall{to{transform:translateY(112vh) rotate(900deg)}}
+@media print{.top,.foot,.acts,#quiz,#res,#gm,#start,#fx{display:none!important}body{background:#fff}.card{box-shadow:none;border:0}}
 @media(max-width:420px){body{padding:8px}.match{gap:40px}.p .ic{width:100%}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -80,9 +89,9 @@ main{max-width:680px;margin:auto}
 <section class="card start" id="start">
  <span class="kind">TEST UNIT 1</span>
  <h2>Gotowi na sprawdzian?</h2>
- <p>50 zadań z zakresu, który zapowiedziała nauczycielka. Dotknij żółtego głośniczka, a lektor przeczyta pytanie i kolejne odpowiedzi. Po teście czekają gry!</p>
+ <p>45 zadań w 3 poziomach po 15, z zakresu, który zapowiedziała nauczycielka. Dotknij żółtego głośniczka, a lektor przeczyta pytanie i kolejne odpowiedzi. Po każdym poziomie możesz iść dalej albo ćwiczyć jeszcze raz. Na końcu czekają fanfary i gry!</p>
  <div class="chips"><span>czytanie i słuchanie</span><span>przybory szkolne</span><span>in / on</span><span>liczby 1–10</span><span>łączenie słów z obrazkami</span></div>
- <div class="acts"><button class="btn go" id="begin">Zaczynamy!</button></div>
+ <div class="chips hidden" id="badge"><span style="background:#ffd54a">Złota korona — bezbłędny mistrz!</span></div><div class="acts"><button class="btn go" id="begin">Zaczynamy!</button></div>
 </section>
 
 <section class="card hidden" id="quiz">
@@ -98,10 +107,13 @@ main{max-width:680px;margin:auto}
 </section>
 
 <section class="card hidden" id="res">
- <div class="score" id="fs"></div><div class="rt" id="rt"></div><p id="rm" style="text-align:center;font-weight:700;line-height:1.5"></p>
+ <span class="kind" id="lt"></span><div class="score" id="fs"></div><div class="rt" id="rt"></div><p id="rm" style="text-align:center;font-weight:700;line-height:1.5"></p>
  <h3 style="margin:14px 0 0">Do powtórki</h3><div class="rev" id="rev"></div>
- <div class="acts"><button class="btn go" id="play">Zabawa i nauka</button><button class="btn alt" id="again">Powtórz ten test</button><button class="btn alt" id="newt">Nowy test</button></div>
+ <div class="acts"><button class="btn go" id="b1"></button><button class="btn alt" id="b2"></button><button class="btn alt" id="play">Zabawa i nauka</button></div>
 </section>
+
+<section class="card hidden" id="fin"><div id="finb"></div><div class="acts"><button class="btn go" id="f1">Zabawa i nauka</button><button class="btn alt" id="f2">Powtórz cały test</button><button class="btn alt" id="f3">Nowy test</button></div></section>
+<div id="fx"></div>
 
 <section class="card hidden" id="gm"><span class="kind" id="gk">ZABAWA I NAUKA</span><div id="gb"></div><div class="acts"><button class="btn alt" id="gback">Wróć</button></div></section>
 <div class="foot">Autorski trening na podstawie zakresu od nauczycielki — to nie jest oficjalny sprawdzian. Działa offline; głos zależy od telefonu.</div>
@@ -138,9 +150,9 @@ const mk={
  match(){if(mi++%3==2){const a=shuf(NUMS).slice(0,4);return{k:'match',type:'ŁĄCZENIE LICZB',q:'Match the numbers.',p:'Policz ołówki i połącz z liczbą.',pairs:a.map(x=>[NW[x],null,x])}}
   return{k:'match',type:'ŁĄCZENIE',q:'Match the words and pictures.',p:'Dotknij słowa, potem jego obrazka.',pairs:shuf(KS).slice(0,4).map(k=>[NM[k],k])}}
 };
-const PAT=['pick','listen','read','num','inon','pick','listen','num','match','pick'];
-const gen=()=>[0,1,2,3,4].flatMap(()=>PAT.map(t=>mk[t]()));
-let T=gen(),n=0,pts=0,lock=0,wrong=[],sound=true,run=0,sel=null,done=0,mis=0,links=[];
+const PAT=['pick','listen','read','num','inon','pick','listen','num','match','read','pick','listen','num','inon','match'];
+const gen=()=>[0,1,2].flatMap(()=>PAT.map(t=>mk[t]()));
+const LV=15,NL=3;let L=0,terr=0,lvP=[],bk='res';let T=gen(),n=0,pts=0,lock=0,wrong=[],sound=true,run=0,sel=null,done=0,mis=0,links=[];
 const COL=['#ff6b4a','#14a38b','#7c4dff','#e59a00'];
 const clr=()=>document.querySelectorAll('.say').forEach(e=>e.classList.remove('say'));
 function stop(){run++;if(window.speechSynthesis)speechSynthesis.cancel();clr()}
@@ -164,8 +176,8 @@ function script(t){
 }
 function render(){
  stop();lock=0;const t=T[n];
- $('cnt').textContent=`${n+1}/${T.length}`;$('pn').textContent=pts;$('bar').style.width=`${n/T.length*100}%`;
- $('kind').textContent=`MISJA ${n+1} • ${t.type}`;$('q').textContent=t.q;$('hint').textContent=t.p;
+ $('cnt').textContent=`${n-L*LV+1}/${LV}`;$('pn').textContent=pts;$('bar').style.width=`${(n-L*LV)/LV*100}%`;
+ $('kind').textContent=`POZIOM ${L+1} • ${t.type}`;$('q').textContent=t.q;$('hint').textContent=t.p;
  $('fb').classList.add('hidden');$('next').classList.add('hidden');
  const A=$('answers'),M=$('mt'),H=$('hero');A.innerHTML='';
  if(t.k==='match'){A.classList.add('hidden');M.classList.remove('hidden');H.classList.add('hidden');return rMatch(t)}
@@ -184,14 +196,14 @@ function render(){
 function choose(i){
  if(lock)return;lock=1;stop();const t=T[n],b=[...$('answers').children],ok=i===t.c;
  b.forEach((e,j)=>{e.disabled=true;if(j===t.c)e.classList.add('good');else if(j===i)e.classList.add('bad')});
- if(ok)pts++;else wrong.push({q:t.q,a:t.k==='pick'||t.num?t.o[t.c]:N[t.o[t.c]],w:t.w});
+ if(ok)pts++;else terr++,wrong.push({q:t.q,a:t.k==='pick'||t.num?t.o[t.c]:N[t.o[t.c]],w:t.w});
  fin(ok?['Świetnie!','Brawo!','Tak jest!','Super!'][n%4]:'Prawie! Zapamiętaj:',t.w);
  const say=t.k==='listen'?t.s:t.k==='read'?t.s:t.o[t.c];if(ok)seq([[say,b[t.c]]]);
 }
 function fin(a,b){
- $('pn').textContent=pts;$('bar').style.width=`${(n+1)/T.length*100}%`;
+ $('pn').textContent=pts;$('bar').style.width=`${(n+1-L*LV)/LV*100}%`;
  $('fb').innerHTML=`<b>${a}</b><br>${b}`;$('fb').classList.remove('hidden');
-$('next').classList.remove('hidden');$('next').textContent=n===T.length-1?'Zobacz wynik':'Dalej';
+$('next').classList.remove('hidden');$('next').textContent=n-L*LV===LV-1?'Wynik poziomu':'Dalej';
 }
 function rMatch(t){
  sel=null;done=0;mis=0;links=[];const P=t.pairs,lc=$('lc'),rc=$('rc');lc.innerHTML=rc.innerHTML='';$('ln').innerHTML='';
@@ -205,7 +217,7 @@ function pickR(b,i,t){
  if(sel===null){b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),400);return}
  const l=lc.children[sel];l.classList.remove('on');
  if(i===sel){const c=COL[i%4];[l,b].forEach(e=>{e.disabled=true;e.style.setProperty('--c',c)});links.push([l,b,c]);draw();sel=null;
-  if(++done===t.pairs.length){if(!mis)pts++;else wrong.push({q:t.q,a:t.pairs.map(p=>p[0]).join(', '),w:'Powtórz te słowa na głos.'});
+  if(++done===t.pairs.length){if(!mis)pts++;else terr++,wrong.push({q:t.q,a:t.pairs.map(p=>p[0]).join(', '),w:'Powtórz te słowa na głos.'});
    fin(mis?'Połączone! Pomyłek: '+mis:'Wszystkie pary bez pomyłki!','Dobra robota.');seq([['Well done!',null]])}}
  else{mis++;[l,b].forEach(e=>{e.classList.add('shake');setTimeout(()=>e.classList.remove('shake'),400)});sel=null}
 }
@@ -215,24 +227,50 @@ function draw(){
   return `<line x1="${a.right-c.left-3}" y1="${a.top+a.height/2-c.top}" x2="${d.left-c.left+3}" y2="${d.top+d.height/2-c.top}" stroke="${col}" stroke-width="6" stroke-linecap="round"/>`}).join('');
 }
 addEventListener('resize',draw);
-function finish(){
- stop();$('quiz').classList.add('hidden');$('res').classList.remove('hidden');$('bar').style.width='100%';
- const m=T.length,hi=pts>=m*.85,mid=pts>=m*.6;
- $('fs').textContent=`${pts}/${m}`;
- $('rt').textContent=hi?'Superbohater angielskiego!':mid?'Świetna robota!':'Trening czyni mistrza!';
- $('rm').textContent=hi?'Rewelacja! Powtórz jeszcze słówka na głos i jesteś gotowy na 20.10.':mid?'Bardzo dobrze! Zerknij na powtórkę i zagraj jeszcze raz.':'Brawo za ukończenie misji! Zobacz powtórkę i spróbuj ponownie.';
+function startLv(){pts=0;wrong=[];n=L*LV;['res','fin','gm'].forEach(i=>$(i).classList.add('hidden'));$('quiz').classList.remove('hidden');render();window.scrollTo({top:0})}
+function levelEnd(){
+ stop();lvP[L]=pts;const last=L==NL-1,good=pts>=12;
+ $('quiz').classList.add('hidden');$('res').classList.remove('hidden');
+ $('lt').textContent=`POZIOM ${L+1} z ${NL}`;$('fs').textContent=`${pts}/${LV}`;
+ $('rt').textContent=pts==LV?'Bezbłędnie!':good?'Świetna robota!':'Jeszcze trochę!';
+ $('rm').textContent=good?'Idź dalej albo powtórz poziom, żeby było jeszcze lepiej.':'Spróbuj jeszcze raz — te same zadania, a Ty już wiesz więcej!';
  const r=$('rev');r.innerHTML='';
  if(!wrong.length)r.textContent='Wszystko poprawnie — mistrzowska robota!';
  else wrong.forEach(w=>{const d=document.createElement('div'),s=document.createElement('b'),p=document.createElement('span');s.textContent=w.q;p.textContent=`Poprawnie: ${w.a}. ${w.w}`;d.append(s,p);r.append(d)});
- window.scrollTo({top:0});
+ const adv=[good?(last?'Wielki finał!':`Poziom ${L+2}`):(last?'Zakończ test':'Przejdź dalej mimo to'),()=>{if(last)finale();else{L++;startLv()}}],rep=['Powtórz poziom',startLv],A=good?[adv,rep]:[rep,adv];
+ [$('b1'),$('b2')].forEach((b,i)=>{b.textContent=A[i][0];b.onclick=A[i][1]});
+ if(good)fan(2);window.scrollTo({top:0});
+}
+function finale(){
+ stop();$('res').classList.add('hidden');$('fin').classList.remove('hidden');bk='fin';
+ const tot=lvP.reduce((a,b)=>a+b,0),all=NL*LV,flaw=terr==0,lv=lvP.map((p,i)=>`<span>Poziom ${i+1}: ${p}/${LV}</span>`).join('');
+ const date=new Date().toLocaleDateString('pl-PL');
+ $('finb').innerHTML=flaw?`<div class="dip"><svg class="cr" viewBox="0 0 64 50"><path d="M6 40L2 12l16 14L32 4l14 22 16-14-4 28z" fill="#ffc83d" stroke="#1f2a5a" stroke-width="3" stroke-linejoin="round"/><rect x="6" y="39" width="52" height="8" rx="3" fill="#ffd54a" stroke="#1f2a5a" stroke-width="3"/><circle cx="32" cy="12" r="3.5" fill="#ff6b4a"/><circle cx="16" cy="31" r="3" fill="#14a38b"/><circle cx="48" cy="31" r="3" fill="#4a7bff"/></svg><div class="dt">DYPLOM</div><div class="dm">MISTRZ ANGIELSKIEGO</div><p>za bezbłędne ukończenie całego testu Unit 1<br>${tot}/${all} — ani jednej pomyłki!</p><div class="nm" contenteditable="true" spellcheck="false" aria-label="Imię">Twoje imię</div><p>${date}</p></div><div class="acts" style="margin-bottom:14px"><button class="btn alt" onclick="print()">Zapisz / wydrukuj dyplom</button></div>`
+ :`<div class="stars">${I('star','ic')}${I('star','ic')}${I('star','ic')}</div><div class="rt" style="font-size:2rem;margin:10px 0">Gratulacje!</div><p style="text-align:center;font-weight:700;line-height:1.5">Przeszedłeś cały Unit 1 — ${tot}/${all} punktów.<br>Zrób test bez ani jednej pomyłki, a zdobędziesz złotą koronę i dyplom!</p><div class="lvs">${lv}</div>`;
+ if(flaw){try{localStorage.setItem('eq_gold','1')}catch(e){}}
+ fan(flaw?1:0);boom(flaw?170:80);window.scrollTo({top:0});
+}
+let AC;
+function fan(t){
+ try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const M=[[[523,.12],[523,.12],[523,.12],[659,.4],[587,.12],[659,.12],[784,.7]],
+  [[392,.14],[523,.14],[659,.14],[784,.28],[659,.14],[784,.14],[1047,.5],[988,.14],[1047,.14],[1319,.9]],[[660,.1],[880,.1],[1047,.3]]][t];
+  let at=AC.currentTime+.05;M.forEach(([f,d])=>{[0,1].forEach(j=>{const o=AC.createOscillator(),g=AC.createGain();o.type=j?'square':'sawtooth';o.frequency.value=f*(j?1:1.005);
+   g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(.07,at+.02);g.gain.exponentialRampToValueAtTime(.001,at+d+.25);o.connect(g);g.connect(AC.destination);o.start(at);o.stop(at+d+.3)});at+=d*1.05});
+  if(t==1)[523,659,784,1047].forEach(f=>{const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.08,at);g.gain.exponentialRampToValueAtTime(.001,at+1.4);o.connect(g);g.connect(AC.destination);o.start(at);o.stop(at+1.5)})}catch(e){}
+}
+function boom(k){
+ const f=$('fx'),c=['#ff6b4a','#ffd54a','#14a38b','#7c4dff','#4a7bff','#ff9ab0'];
+ for(let i=0;i<k;i++){const e=document.createElement('i');e.className='cf';e.style.cssText=`left:${Math.random()*100}%;background:${c[i%6]};animation-duration:${2.5+Math.random()*3}s;animation-delay:${Math.random()*1.6}s;width:${6+Math.random()*8}px`;f.append(e)}
+ setTimeout(()=>f.innerHTML='',8000);
 }
 $('begin').onclick=()=>{$('start').classList.add('hidden');$('quiz').classList.remove('hidden');render()};
-$('next').onclick=()=>{if(n<T.length-1){n++;render();window.scrollTo({top:0})}else finish()};
+$('next').onclick=()=>{if(n<(L+1)*LV-1){n++;render();window.scrollTo({top:0})}else levelEnd()};
 $('sp').innerHTML=SPK;$('sp').onclick=()=>seq(script(T[n]));
-const rerun=()=>{n=0;pts=0;wrong=[];$('res').classList.add('hidden');$('gm').classList.add('hidden');$('quiz').classList.remove('hidden');render();window.scrollTo({top:0})};
-$('again').onclick=rerun;$('newt').onclick=()=>{T=gen();rerun()};
-$('play').onclick=()=>{$('res').classList.add('hidden');$('gm').classList.remove('hidden');menu();window.scrollTo({top:0})};
-$('gback').onclick=()=>{if(gp)menu();else{stop();$('gm').classList.add('hidden');$('res').classList.remove('hidden')}};
+const toGames=b=>{bk=b;['res','fin'].forEach(i=>$(i).classList.add('hidden'));$('gm').classList.remove('hidden');menu();window.scrollTo({top:0})};
+$('play').onclick=()=>toGames('res');$('f1').onclick=()=>toGames('fin');
+$('f2').onclick=()=>{L=0;terr=0;lvP=[];startLv()};$('f3').onclick=()=>{T=gen();L=0;terr=0;lvP=[];startLv()};
+$('gback').onclick=()=>{if(gp)menu();else{stop();$('gm').classList.add('hidden');$(bk).classList.remove('hidden')}};
+try{if(localStorage.getItem('eq_gold'))$('badge').classList.remove('hidden')}catch(e){}
 const G=$('gb');let gp=0,cur;
 const mkb=(c,h,f)=>{const b=document.createElement('button');b.className=c;b.innerHTML=h;b.onclick=f;return b};
 function menu(){stop();gp=0;$('gback').textContent='Wróć do wyniku';
